@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import *
+from django.http import HttpResponse, JsonResponse
+from rest_framework.parsers import JSONParser
+from django.views.decorators.csrf import csrf_exempt
+from .serializers import GarbageSerializer
 
 # Create your views here.
 def home(request):
@@ -67,8 +71,24 @@ def dashboard(request):
     
     return render(request, "Login_page/Login.html")
 
+@csrf_exempt
 def add(request):
-    pass
+    if request.method == "POST":
+        print(request)
+        data = JSONParser().parse(request)
+        serializer = GarbageSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
 
-def delete(request):
-    pass
+@csrf_exempt
+def delete(request, pk):
+    try:
+        garbage = Garbage.objects.get(id_number=pk)
+    except GarbageDoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == "DELETE":
+        garbage.delete()
+        return HttpResponse(status=204)

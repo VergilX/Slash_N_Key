@@ -10,5 +10,5 @@ urlpatterns = [
     path("logout", views.logout_user, name="logout"),
     path("dashboard", views.dashboard, name="dashboard"),
     path("add", views.add, name="add"),
-    path("delete", views.delete, name="delete"),
+    path("delete/<int:pk>/", views.delete, name="delete"),
 ]

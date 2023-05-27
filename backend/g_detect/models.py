@@ -13,6 +13,9 @@ class Garbage(models.Model):
     id_number = models.IntegerField()
     location = models.CharField(max_length=100)
 
+    def __str__(self):
+        return f"{self.id_number} : {self.location}"
+
 class LocalGarbage(models.Model):
     id_number = models.IntegerField()
     location = models.CharField(max_length=100)
