@@ -5,18 +5,18 @@ from .models import *
 
 # Create your views here.
 def home(request):
-    pass
+    pass # Landing page
 
 def register(request):
     # 0 for success 1 for fail
-    if request.user.is_authenticated():
-        pass
+    if request.user.is_authenticated:
+        pass # Dashboard
 
     if request.method == "POST":
         data = request.POST
 
         username = data["username"]
-        if username not in [i.username for i in Volunteer.objects.all()]:
+        if username not in [i.username for i in User.objects.all()]:
             user = User.objects.create_user(
                     username=username,
                     password=data.get("password"),
@@ -29,13 +29,13 @@ def register(request):
             login(request, user)
             Volunteer(user=user, location=data.get("location")).save()
             
-            return 0
+            return 0 # Dashboard
     else:
-        return 1
+        return render(request, "Signup_page/Signup.html")
 
 def login_user(request):
     if request.user.is_authenticated:
-        return 1
+        return render(request, "Login_page/Login.html")
 
     if request.method == "POST":
         data = request.POST
@@ -44,22 +44,24 @@ def login_user(request):
 
         if user is not None:
             login(request, user)
-            return 0
+            return 0 # Dashboard
 
-        return 1
+        return render(request, "Login_page/Login.html")
+
+    return render(request, "Login_page/Login.html")
 
 def logout_user(request):
     if request.user.is_authenticated:
         logout(request)
-        return 0
+        return 0 # Dashboard
 
-    return 1
+    return 1 # Landing page
 
 def dashboard(request):
     if not request.user.is_authenticated:
-        return 1
+        return 1 # Dashboard
     
-    return 0
+    return render(request, "Login_page/Login.html")
 
 def add(request):
     pass
