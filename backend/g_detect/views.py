@@ -25,13 +25,12 @@ def register(request):
                     username=username,
                     password=data.get("password"),
                     email=data.get("email"),
-                    phone=data.get("phone"),
                     first_name=data.get("firstname"),
                     last_name=data.get("lastname")
                 )
             user.save()
             login(request, user)
-            Volunteer(user=user, location=data.get("location")).save()
+            Volunteer(user=user, location=data.get("location"), phone=data.get("phone")).save()
             
             return 0 # Dashboard
     else:
@@ -39,17 +38,17 @@ def register(request):
 
 def login_user(request):
     if request.user.is_authenticated:
-        return render(request, "Login_page/Login.html")
+        return render(request, "dashboard/dash.html") # Dashboard
 
     if request.method == "POST":
         data = request.POST
-
-        user = authenticate(request, username=data.get("username"), password=data.get("password"))
+        
+        user = authenticate(request, username=data["username"], password=data["password"])
 
         if user is not None:
             login(request, user)
-            return 0 # Dashboard
-
+            return render(request, "dashboard/dash.html")
+        
         return render(request, "Login_page/Login.html")
 
     return render(request, "Login_page/Login.html")

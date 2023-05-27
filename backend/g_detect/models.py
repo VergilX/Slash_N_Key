@@ -6,6 +6,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Volunteer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     location = models.CharField(max_length=100)
+    phone = models.CharField(max_length=10, default="")
 
     def __str__():
         return f"{user.first_name} {user.last_name}"
