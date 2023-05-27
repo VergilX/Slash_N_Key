@@ -15,6 +15,10 @@ def register(request):
     if request.method == "POST":
         data = request.POST
 
+        # Checking password validity
+        if (data.get('password') != data.get('re-password')):
+            return render(request, "Signup_page/Signup.html")
+
         username = data["username"]
         if username not in [i.username for i in User.objects.all()]:
             user = User.objects.create_user(

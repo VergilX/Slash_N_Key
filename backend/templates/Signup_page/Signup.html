@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,59 +9,37 @@
     <title>Sign Up Page</title>
 
     <!-- Font Icon -->
-    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="{% static 'signup/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
 
     <!-- Main css -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{% static 'signup/css/style.css' %}">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="./images/logo.png">
+    <link rel="icon" type="image/x-icon" href="{% static './images/logo.png' %}">
 
 </head>
 <body>
-    <script>
-        function sendRequest(){
-            $(document).ready(function () {
-                $("form").submit(function (event) {
-                    var formData = {
-                        email: $("#email").val(),
-                        username: $("#username").val(),
-                        password: $("#password").val(),
-                        confirm_password: $("#re_password").val()
-                };
-            
-                $.ajax({
-                    type: "POST",
-                    url: "http://localserver:8001/API/Signup.php",
-                    data: formData,
-                    dataType: "json",
-                    encode: true,
-                }).done(function (data) {
-                    var result = data.innerhtml();
-                    if (result == "success"){
-                        console.log("success");
-                    } 
-                });
-            
-                event.preventDefault();
-                });
-            });
-        }
-    </script>
-
     <div class="main">
-
         <section class="signup">
             <!-- <img src="images/signup-bg.jpg" alt=""> -->
             <div class="container">
                 <div class="signup-content">
-                    <form method="POST" id="signup-form" class="signup-form" onsubmit = "sendRequest()">
+                    <form action="{% url 'g_detect:register' %}" method="POST" id="signup-form" class="signup-form">
                         <h2 class="form-title">Create account</h2>
                         <div class="form-group">
                             <input type="text" class="form-input" name="username" id="username" placeholder="Your Name" required/>
                         </div>
                         <div class="form-group">
+                            <input type="text" class="form-input" name="firstname" id="firstname" placeholder="First Name" required/>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" name="lastname" id="lastname" placeholder="Last Name" required/>
+                        </div>
+                        <div class="form-group">
                             <input type="email" class="form-input" name="email" id="email" placeholder="Your Email" required/>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" name="phone" id="phone" placeholder="Your Phone Number" required/>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-input" name="password" id="password" placeholder="Password" required/>
@@ -78,7 +58,7 @@
                         </div>
                     </form>
                     <p class="loginhere">
-                        Have already an account ? <a href="../Login_page/Login.html" class="loginhere-link">Login here</a>
+                        Have already an account ? <a href="{% url 'g_detect:login' %}" class="loginhere-link">Login here</a>
                     </p>
                 </div>
             </div>
@@ -87,7 +67,7 @@
     </div>
 
     <!-- JS -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{% static 'signup/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
