@@ -8,9 +8,6 @@ class Volunteer(models.Model):
     location = models.CharField(max_length=100)
     phone = models.CharField(max_length=10, default="")
 
-    def __str__():
-        return f"{user.first_name} {user.last_name}"
-
 # Model for garbage instance
 class Garbage(models.Model):
     id_number = models.IntegerField()

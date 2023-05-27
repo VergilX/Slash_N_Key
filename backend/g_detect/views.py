@@ -10,13 +10,14 @@ def home(request):
 def register(request):
     # 0 for success 1 for fail
     if request.user.is_authenticated:
-        pass # Dashboard
+        return render(request, "dashboard/dash.html") # Dashboard
 
     if request.method == "POST":
         data = request.POST
 
         # Checking password validity
-        if (data.get('password') != data.get('re-password')):
+        if (data.get('password') != data.get('re_password')):
+            print("No match", data.get('password'), data.get('re_password'))
             return render(request, "Signup_page/Signup.html")
 
         username = data["username"]
@@ -29,10 +30,10 @@ def register(request):
                     last_name=data.get("lastname")
                 )
             user.save()
-            login(request, user)
             Volunteer(user=user, location=data.get("location"), phone=data.get("phone")).save()
+            login(request, user)
             
-            return 0 # Dashboard
+            return render(request, "dashboard/dash.html") # Dashboard
     else:
         return render(request, "Signup_page/Signup.html")
 
@@ -56,7 +57,7 @@ def login_user(request):
 def logout_user(request):
     if request.user.is_authenticated:
         logout(request)
-        return 0 # Dashboard
+        return 0 # Landing Page
 
     return 1 # Landing page
 
