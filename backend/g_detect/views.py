@@ -74,7 +74,7 @@ def dashboard(request):
 @csrf_exempt
 def add(request):
     if request.method == "POST":
-        print(request)
+        print(request.POST)
         data = JSONParser().parse(request)
         serializer = GarbageSerializer(data=data)
         if serializer.is_valid():
@@ -85,7 +85,7 @@ def add(request):
 @csrf_exempt
 def delete(request, pk):
     try:
-        garbage = Garbage.objects.get(id_number=pk)
+        garbage = Garbage.objects.get(id=pk)
     except GarbageDoesNotExist:
         return HttpResponse(status=404)
 

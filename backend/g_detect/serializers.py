@@ -4,7 +4,7 @@ from .models import Garbage
 class GarbageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Garbage
-        fields = ['id', 'location']
+        fields = ['location']
 
     def create(self, validated_data):
         return Garbage.objects.create(**validated_data)
