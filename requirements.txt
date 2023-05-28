@@ -1,0 +1,6 @@
+- Python 
+- Django
+- HTML5
+- CSS
+- JS
+- BootStrap
