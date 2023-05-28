@@ -9,7 +9,7 @@ from .serializers import GarbageSerializer
 
 # Create your views here.
 def home(request):
-    pass # Landing page
+    return render(request, "landing/Land.html")
 
 def register(request):
     # 0 for success 1 for fail
@@ -21,7 +21,6 @@ def register(request):
 
         # Checking password validity
         if (data.get('password') != data.get('re_password')):
-            print("No match", data.get('password'), data.get('re_password'))
             return render(request, "Signup_page/Signup.html")
 
         username = data["username"]
@@ -37,13 +36,17 @@ def register(request):
             Volunteer(user=user, location=data.get("location"), phone=data.get("phone")).save()
             login(request, user)
             
-            return render(request, "dashboard/dash.html") # Dashboard
+            return render(request, "dashboard/dash.html", {
+                'garbage': Garbage.objects.all()
+            }) # Dashboard
     else:
         return render(request, "Signup_page/Signup.html")
 
 def login_user(request):
     if request.user.is_authenticated:
-        return render(request, "dashboard/dash.html") # Dashboard
+        return render(request, "dashboard/dash.html", {
+            'garbage': Garbage.objects.all()
+        }) # Dashboard
 
     if request.method == "POST":
         data = request.POST
@@ -52,7 +55,9 @@ def login_user(request):
 
         if user is not None:
             login(request, user)
-            return render(request, "dashboard/dash.html")
+            return render(request, "dashboard/dash.html", {
+                'garbage': Garbage.objects.all()
+            })
         
         return render(request, "Login_page/Login.html")
 
@@ -61,15 +66,17 @@ def login_user(request):
 def logout_user(request):
     if request.user.is_authenticated:
         logout(request)
-        return 0 # Landing Page
+        return render(request, "landing/Land.html")
 
-    return 1 # Landing page
+    return render(request, "landing/Land.html")
 
 def dashboard(request):
     if not request.user.is_authenticated:
-        return 1 # Dashboard
+        return render(request, "Login_page/Login.html")
     
-    return render(request, "Login_page/Login.html")
+    return render(request, "dashboard/dash.html", {
+        'garbage': Garbage.objects.all()
+    })
 
 @csrf_exempt
 def add(request):
