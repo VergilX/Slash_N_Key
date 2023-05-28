@@ -1,3 +1,11 @@
 body{
-    background-image: url('../images/bgm.jpg');
+    background-image: url('../images/bg.jpg');
+}
+.noti-icon{
+    position: relative;
+    /* right: 112px; */
+    right: 246px;
+    /* size: auto; */
+    font-size: 27px;
+    top: -5px;
 }
